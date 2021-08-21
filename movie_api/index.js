@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(methodOverride());
 // Use express.static to serve your “documentation.html”
-app.use(express.static('./public'));
+app.use(express.static('public'));
 app.use(myLogger);
 
 //List of Movie 
@@ -130,7 +130,7 @@ app.get('/', (req, res) => {
 });
 
 //Return movie list
-app.get('/movie', (req, res) => {
+app.get('/movies', (req, res) => {
     res.json(topMovies);
 });
 
