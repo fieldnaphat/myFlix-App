@@ -1,6 +1,7 @@
 const   express = require('express'),
         morgan = require('morgan'),
         bodyParser = require('body-parser'),
+        uuid = require('uuid'),
         methodOverride = require('method-override'),
         ServerPort = 8080;
 
@@ -93,7 +94,7 @@ let topMovies = [
     },
     {
         "year": 2018,
-        "title": "Avengers: Infinity War",
+        "title": "Avengers-Infinity War",
         "description": "Iron Man, Thor, the Hulk and the rest of the Avengers unite to battle their most powerful enemy yet -- the evil Thanos. On a mission to collect all six Infinity Stones, Thanos plans to use the artifacts to inflict his twisted will on reality. The fate of the planet and existence itself has never been more uncertain as everything the Avengers have fought for has led up to this moment.",
         "info": {
             "directors": [
@@ -132,6 +133,45 @@ app.get('/', (req, res) => {
 //Return movie list
 app.get('/movies', (req, res) => {
     res.json(topMovies);
+});
+
+
+// Gets the data about a single movies, by name
+app.get('/movies/:title', (req, res) => {
+    res.json(topMovies.find((movie) => {
+        return movie.title === req.params.title
+    }));
+});
+
+// Adds data for a new movie to our list of movies.
+app.post('/movies', (req, res) => {
+    let newMovie = req.body;
+
+    if (!newMovie.title) {
+        const message = 'Missing name in request body';
+        res.status(400).send(message);
+    } else {
+        newMovie.id = uuid.v4();
+        topMovies.push(newMovie);
+        res.status(201).send(newMovie);
+    }
+});
+
+
+// Update the information in movie by title
+app.put('/movies/:title', function (req, res) {
+    res.send('Got a PUT request to update for ' + req.params.title + ' Movie');
+});
+
+
+// Deletes a movie from our list by title
+app.delete('/movies/:title', (req, res) => {
+    let movie = topMovies.find((movie) => { return movie.title === req.params.title });
+  
+    if (movie) {
+      topMovies = topMovies.filter((obj) => { return obj.title !== req.params.title });
+      res.status(201).send('Movie ' + req.params.title + ' was deleted.');
+    }
 });
 
 /* error-handling middleware function that will log all application-level

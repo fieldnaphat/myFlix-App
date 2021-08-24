@@ -8,6 +8,30 @@
   <title>Documentation</title>
 </head>
 
+
+<style>
+
+  body {
+    margin: 3rem;
+  }
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+</style>
+
 <body>
   <section>
     <h1>Documentation</h1>
@@ -21,10 +45,12 @@
     </p>
 
     <h3>Essential Features</h3>
+    <h5>The overall goal of your Achievement project is to build a REST API. As defined in your project brief (PDF), the
+      REST API must do the following:</h5>
     <p>
       ● Return a list of ALL movies to the user<br>
-      ● Return data (description, genre, director, image URL, whether it’s featured or not) about a
-      single movie by title to the user<br>
+      ● Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by
+      title to the user<br>
       ● Return data about a genre (description) by name/title (e.g., “Thriller”)<br>
       ● Return data about a director (bio, birth year, death year) by name<br>
       ● Allow new users to register<br>
@@ -34,26 +60,93 @@
       ● Allow existing users to deregister<br>
     </p>
 
-    <h3>Technical Requirements</h3>
-    <p>
-      ● The API must be a Node.js and Express application. <br>
-      ● The API must use REST architecture, with URL endpoints corresponding to the data
-      operations listed above<br>
-      ● The API must use at least three middleware modules, such as the body-parser package for
-      reading data from requests and morgan for logging.<br>
-      ● The API must use a “package.json” file.<br>
-      ● The database must be built using MongoDB.<br>
-      ● The business logic must be modeled with Mongoose.<br>
-      ● The API must provide movie information in JSON format.<br>
-      ● The JavaScript code must be error-free.<br>
-      ● The API must be tested in Postman.<br>
-      ● The API must include user authentication and authorization code.<br>
-      ● The API must include data validation logic.<br>
-      ● The API must meet data security regulations.<br>
-      ● The API source code must be deployed to a publicly accessible platform like GitHub.<br>
-      ● The API must be deployed to Heroku.<br>
-    </p>
+    <h2>All URL endpoints for movie API</h2>
 
+    <table>
+      <tr>
+        <th>REQUEST</th>
+        <th>URL</th>
+        <th>HTTP METHOD</th>
+        <th>REQUEST DATA FORMAT</th>
+        <th>RESPONSE DATA BODY FORMAT</th>
+      </tr>
+
+      <tr>
+        <td>Get a list of movies</td>
+        <td>/movies</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>A JSON object holding data about all the movies</td>
+      </tr>
+
+      <tr>
+        <td>Get data about a single movie by movie name</td>
+        <td>/movies/title</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>A JSON object holding data about a single movie, containing an title, and description. Example:<br><br>
+          {<br><br>
+          "year": 2020,<br>
+          "title": "Wonder Woman 1984",<br>
+          "description": "Diana Prince lives quietly among mortals in the vibrant, sleek 1980s -- an era of excess<br>
+          driven by the pursuit of having it all. Though she's come into her full powers, she maintains a low profile by<br>
+          curating ancient artifacts, and only performing heroic acts incognito. But soon, Diana will have to muster all<br>
+          of her strength, wisdom and courage as she finds herself squaring off against Maxwell Lord and the Cheetah, a<br>
+          villainess who possesses superhuman strength and agility.",<br>
+          "info": {<br>
+          "directors": "Patty Jenkins",<br>
+          "release_date": "December 25, 2020 (USA)"<br><br>
+          }
+        </td>
+      </tr>
+
+      <tr>
+        <td>Add a new movie to the list</td>
+        <td>/movies</td>
+        <td>POST</td>
+        <td> A JSON object holding data about the student to add, structured like: <br><br>
+          {<br>
+            "year": 2021,<br>
+            "title": "Free Guy",<br>
+            "description": "When a bank teller discovers he's actually a background player in an open-world video game, he decides to become the hero of his own story -- one that he can rewrite himself. In a world where there's no limits, he's determined to save the day his way before it's too late, and maybe find a little romance with the coder who conceived him.",<br>
+            "info": {<br>
+            "directors": "Shawn Levy",<br>
+            "release_date": "August 13, 2021"<br>
+            }
+          }
+        </td>
+
+        <td>A JSON object holding data about the movie that was added, including an ID:<br><br>
+
+          {<br>
+            "year": 2021,<br>
+            "title": "Free Guy",<br>
+            "description": "When a bank teller discovers he's actually a background player in an open-world video game, he decides to become the hero of his own story -- one that he can rewrite himself. In a world where there's no limits, he's determined to save the day his way before it's too late, and maybe find a little romance with the coder who conceived him.",<br>
+            "info": {<br>
+                "directors": "Shawn Levy",<br>
+                "release_date": "August 13, 2021"<br>
+            },<br>
+            "id": "639b8bfc-23dd-4c84-99fa-5a831a37abc1"<br>
+        }
+        </td>
+      </tr>
+
+      <tr>
+        <td>Update the information in movie by title/td>
+        <td>/movies/:title</td>
+        <td>/PUT</td>
+        <td>None</td>
+        <td>A text message indicating whether the movie was successfully updated</td>
+      </tr>
+
+      <tr>
+        <td>Delete the movie from the list</td>
+        <td>/movies/:title</td>
+        <td>/DELETE</td>
+        <td>None</td>
+        <td>A text message indicating whether the movie was successfully removed</td>
+      </tr>
+    </table>
   </section>
 </body>
 
