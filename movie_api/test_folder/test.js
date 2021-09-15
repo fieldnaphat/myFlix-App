@@ -45,6 +45,10 @@ app.get('/students/:name', (req, res) => {
   res.json(students.find((student) =>
     { return student.name === req.params.name }));
 });
+app.get('/students/:id', (req, res) => {
+  res.json(students.find((student) =>
+    { return student.id === req.params.id }));
+});
 
 // Adds data for a new student to our list of students.
 app.post('/students', (req, res) => {
@@ -72,7 +76,10 @@ app.delete('/students/:id', (req, res) => {
 
 // Update the "grade" of a student by student name/class name
 app.put('/students/:name/:class/:grade', (req, res) => {
-  let student = students.find((student) => { return student.name === req.params.name });
+  let student = students.find((student) => 
+  { 
+    return student.name === req.params.name 
+  });
 
   if (student) {
     student.classes[req.params.class] = parseInt(req.params.grade);
