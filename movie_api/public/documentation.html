@@ -147,6 +147,104 @@
         <td>None</td>
         <td>A text message indicating whether the movie was successfully removed</td>
       </tr>
+
+      <tr>
+        <td>Return data about a genre (description) by name/title (e.g., "Thriller")</td>
+        <td>/movies/genre/:genres</td>
+        <td>/GET</td>
+        <td>None</td>
+        <td>returns a list of movies for a specific genre</td>
+      </tr>
+
+      <tr>
+        <td>Return data about a director (bio, birth year, death year) by name</td>
+        <td>/movies/directors/:name</td>
+        <td>/GET</td>
+        <td>None</td>
+        <td>returns data concerning a specific director by name</td>
+      </tr>
+
+      <tr>
+        <td>Register New user</td>
+        <td>/register-new-user</td>
+        <td>/POST</td>
+        <td>
+          A JSON object holding data about the movie that was added, including an ID:<br><br>
+          {<br>
+          "name": "Nannaphat",<br>
+          "username": "field",<br>
+          "email": "field@gmail.com",<br>
+          "password": "testpass"<br>
+          
+          } </td>
+        <td>A JSON object holding data about the movie that was added, including an ID:<br><br>
+
+          {<br>
+            "name": "Nannaphat",<br>
+            "username": "field",<br>
+            "email": "field@gmail.com",<br>
+            "password": "testpass",<br>
+            "id": "b5ceeb44-e199-4860-9048-1f613c7ad20f"<br>
+        }<br>
+      </tr>
+
+      <tr>
+        <td>Return all users list</td>
+        <td>/users</td>
+        <td>/GET</td>
+        <td>None</td>
+        <td>returns all user list</td>
+      </tr>
+
+      <tr>
+        <td>Return user info by username</td>
+        <td>/users/:username</td>
+        <td>/GET</td>
+        <td>None</td>
+        <td>returns user info</td>
+      </tr>
+
+      <tr>
+        <td>Allow users to update their user info username</td>
+        <td>/users/:username</td>
+        <td>/PUT</td>
+        <td>None</td>
+        <td>Updated username</td>
+      </tr>
+
+      <tr>
+        <td>Allow existing users to deregister by username</td>
+        <td>/users/:username</td>
+        <td>/DELETE</td>
+        <td>None</td>
+        <td>A text message indicating whether the username was successfully deregister</td>
+      </tr>
+
+      <tr>
+        <td>Allow existing users to deregister by ID</td>
+        <td>/account/:user/:id</td>
+        <td>/DELETE</td>
+        <td>None</td>
+        <td>A text message indicating Successful add new movie to your list</td>
+      </tr>
+
+      <tr>
+        <td>Add a movie to a user's list of favorites</td>
+        <td>/users/:username/movies/:MovieID</td>
+        <td>/POST</td>
+        <td>None</td>
+        <td>A text message indicating whether the username was successfully deregister</td>
+      </tr>
+
+      <tr>
+        <td> Delete a movie to a user's list of favorites</td>
+        <td>/users/:username/movies/:MovieID</td>
+        <td>/DELETE</td>
+        <td>None</td>
+        <td>A text message indicating Successful DELETE movie from your favorites list</td>
+      </tr>
+
+
     </table>
   </section>
 </body>
