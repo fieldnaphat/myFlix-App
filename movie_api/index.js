@@ -289,7 +289,7 @@ app.get('/', (req, res) => {
 
 //Return a list of ALL movies to the user
 app.get('/movies', (req, res) => {
-    res.send(JSON.stringify(topMovies));
+    res.json(topMovies);
 });
 
 // Return data about a genre (description) by name/title (e.g., "Thriller")
@@ -306,7 +306,7 @@ app.get('/movies/:title', (req, res) => {
 });
 
 // Return data about a director (bio, birth year, death year) by name
-app.get('/movies/:info/:directors/:name', (req, res) => {
+app.get('/movies/directors/:name', (req, res) => {
     res.json('returns data concerning a specific director by name')
 });
 
@@ -329,17 +329,24 @@ app.post('/movies', (req, res) => {
 // Update the information in movie by title
 app.put('/movies/:title', function (req, res) {
 
-    let movie = topMovies.find((movie) => {
-        return movie.title === req.params.title;
-    });
-    if (movie) {
-        topMovies = topMovies.filter((obj) => {
-            return obj.title !== req.params.title;
-        });
-        res.status(201).send("Movie with the ID of " + req.params.title + " was update");
-    } else {
-        res.status(404).send(`Movie with the id ${req.params.title} was not found.`);
+    const oldMovieName = req.params.title;
+    const newMovieName = req.body.title;
+
+    if (!newMovieName || !oldMovieName) {
+        const message = 'Missing movie title in request body';
+        res.status(400).send(message);
+    } 
+ 
+    for (let i = 0; i < topMovies.length; i++) {
+        if (topMovies[i].title === oldMovieName) {
+            topMovies[i].title = newMovieName;
+            res.status(201).send(`Movie with the ID of ${oldMovieName} was updated to ${newMovieName}`);
+            return;
+        }
     }
+
+    res.status(404).send(`Movie with the id ${oldMovieName} was not found.`);
+
 });
 
 
@@ -385,7 +392,7 @@ app.delete('/movies/:id', (req, res) => {
 let UserLists = [];
 
 // Register New user
-app.post('/register-new-user', function (req, res) {
+app.post('/users', function (req, res) {
 
     //Check if all fields are provided and are valid:
     if (!req.body.name ||
@@ -415,7 +422,7 @@ app.post('/register-new-user', function (req, res) {
 
 //Return users list
 app.get('/users', (req, res) => {
-    res.send(JSON.stringify(UserLists));
+    res.json(UserLists);
 });
 
 // Get a user by username
@@ -431,18 +438,23 @@ app.get('/users/:username', (req, res) => {
 // Allow users to update their user info (username)
 app.put('/users/:username', (req, res) => {
 
-    res.json('updates user data');
+    const oldUsername = req.params.username;
+    const newUsername = req.body.username;
 
-    // let user = UserLists.find((user) => {
-    //     return user.username === req.params.username
-    // });
+    if (!oldUsername || !newUsername) {
+        const message = 'Missing Username in request body';
+        res.status(400).send(message);
+    } 
+ 
+    for (let i = 0; i < UserLists.length; i++) {
+        if (UserLists[i].username === oldUsername) {
+            UserLists[i].username = newUsername;
+            res.status(201).send(`Username with the ID of ${oldUsername} was updated to ${newUsername}`);
+            return;
+        }
+    }
 
-    // if (user) {
-    //     user.username[req.params.username] === req.params.username;
-    //     res.status(201).send('User ' + req.params.username + ' was update username to ' + req.params.username + ' already.');
-    // } else {
-    //     res.status(404).send('User ' + req.params.username + ' was not found.');
-    // }
+    res.status(404).send(`Username with the ${oldUsername} was not found.`);
 
 
 });
@@ -465,31 +477,13 @@ app.delete('/users/:username', (req, res) => {
 });
 
 
-//Allow existing users to deregister by ID
-app.delete('/account/:user/:id', (req, res) => {
-
-    let user = UserLists.find((user) => {
-        return user.id === req.params.id;
-    });
-
-    if (user) {
-        UserLists = UserLists.filter((obj) => {
-            return obj.id !== req.params.id;
-        });
-        res.status(201).send("Account with " + req.params.id + " was deleted.");
-    } else {
-        res.status(404).send(`Movie with the id ${req.params.id} was not found.`);
-    }
-});
-
-
 // Add a movie to a user's list of favorites
-app.post('/users/:username/movies/:MovieID', (req, res) => {
+app.post('/users/:username/favorites', (req, res) => {
     res.json('Successful add new movie to your favorites list');
 });
 
 // Delete a movie to a user's list of favorites
-app.delete('/users/:username/movies/:MovieID', (req, res) => {
+app.delete('/users/:username/favorites/:movieId', (req, res) => {
     res.json('Successful DELETE movie from your favorites list');
 });
 

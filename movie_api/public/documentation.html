@@ -136,7 +136,10 @@
         <td>Update the information in movie by title</td>
         <td>/movies/:title</td>
         <td>/PUT</td>
-        <td>None</td>
+        <td>{<br>
+          "title": "Ant-Man and the Wasp-Update"<br>
+          } <br>
+        </td>
         <td>A text message indicating whether the movie was successfully updated</td>
       </tr>
 
@@ -158,7 +161,7 @@
 
       <tr>
         <td>Return data about a director (bio, birth year, death year) by name</td>
-        <td>/movies/:info/:directors/:name</td>
+        <td>/movies/directors/:name</td>
         <td>/GET</td>
         <td>None</td>
         <td>returns data concerning a specific director by name</td>
@@ -166,7 +169,7 @@
 
       <tr>
         <td>Register New user</td>
-        <td>/register-new-user</td>
+        <td>/users</td>
         <td>/POST</td>
         <td>
           A JSON object holding data about the movie that was added, including an ID:<br><br>
@@ -208,8 +211,11 @@
         <td>Allow users to update their user info username</td>
         <td>/users/:username</td>
         <td>/PUT</td>
-        <td>None</td>
-        <td>Updated username</td>
+        <td>{<br>
+          "username": "fieldUpdated"<br>
+          } <br>
+        </td>
+        <td>A text message indicating whether the username was successfully updated</td>
       </tr>
 
       <tr>
@@ -230,7 +236,7 @@
 
       <tr>
         <td>Add a movie to a user's list of favorites</td>
-        <td>/users/:username/movies/:MovieID</td>
+        <td>/users/:username/favorites</td>
         <td>/POST</td>
         <td>None</td>
         <td>A text message indicating whether the username was successfully deregister</td>
@@ -238,7 +244,7 @@
 
       <tr>
         <td> Delete a movie to a user's list of favorites</td>
-        <td>/users/:username/movies/:MovieID</td>
+        <td>/users/:username/favorites/:movieId</td>
         <td>/DELETE</td>
         <td>None</td>
         <td>A text message indicating Successful DELETE movie from your favorites list</td>
