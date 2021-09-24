@@ -1,0 +1,4 @@
+{"_id":{"$oid":"614a81ceff54a360c70a475b"},"username":"wortas1","password":"jW0jmvL","email":"ibeswetherick1@aol.com","birth_date":{"$date":"1970-01-01T00:00:01.967Z"},"FavoriteMovies":[{"$oid":"614a9b15ceff12387abe4bc6"}]}
+{"_id":{"$oid":"614a81dbff54a360c70a475c"},"username":"shanny2","password":"cRw6F90FI4ia","email":"pafonso2@comsenz.com","birth_date":{"$date":"1970-01-01T00:00:01.985Z"},"FavoriteMovies":[{"$oid":"614a9b47ceff12387abe4bc8"}]}
+{"_id":{"$oid":"614a8252ff54a360c70a475d"},"username":"jonathan001","password":"jonathan001222","email":"jonathan.jensen@example.com","birth_date":{"$date":"1970-01-01T00:00:01.987Z"},"FavoriteMovies":[{"$oid":"614a9b47ceff12387abe4bc9"}]}
+{"_id":{"$oid":"614a8279ff54a360c70a475f"},"username":"sdufour0","password":"jlf6rsimZ","email":"awithers0@slideshare.net","birth_date":{"$date":"1970-01-01T00:00:01.982Z"},"FavoriteMovies":[{"$oid":"614a9b47ceff12387abe4bce"}]}
