@@ -15,7 +15,9 @@
     table {
       font-family: arial, sans-serif;
       border-collapse: collapse;
-      width: 100%;
+      /* width: 100%; */
+      border-spacing: 0;
+      flex-wrap: wrap;
     }
 
     td,
@@ -23,18 +25,22 @@
       border: 1px solid #dddddd;
       text-align: left;
       padding: 8px;
+      max-width: 25vw;
+      word-wrap:break-word
     }
 
     tr:nth-child(even) {
       background-color: #dddddd;
     }
+
+    
   </style>
 </head>
 
 
 
 <body>
-  <section>
+  <section style="overflow-x:scroll">
     <h1>Documentation</h1>
 
 
@@ -68,6 +74,7 @@
         <th>REQUEST</th>
         <th>URL</th>
         <th>HTTP METHOD</th>
+        <th>Request method with the Mongoose logic</th>
         <th>REQUEST DATA FORMAT</th>
         <th>RESPONSE DATA BODY FORMAT</th>
       </tr>
@@ -76,28 +83,50 @@
         <td>Get a list of movies</td>
         <td>/movies</td>
         <td>GET</td>
+        <td>Movies</td>
         <td>None</td>
-        <td>A JSON object holding data about all the movies</td>
+        <td>A JSON object holding data about a single movie, containing an title, and description. Example:<br><br>
+          {<br>
+            "genre": [<br>
+                "ObjectID('614cfa9010379cf7cbaf21b8')",<br>
+                "ObjectID('614cfafa10379cf7cbaf21b9'"<br>
+            ],<br>
+            "actors": [],<br>
+            "_id": "614d3fab10ad3cd4e5b32f5b",<br>
+            "year": 2017,<br>
+            "title": "Wonder Woman",<br>
+            "ImagePath": "https://image.posterlounge.com/images/l/1899082.jpg",<br>
+            "description": "Before she was Wonder Woman (Gal Gadot), she was Diana, princess of the Amazons, trained to be an unconquerable warrior. Raised on a sheltered island paradise, Diana meets an American pilot (Chris Pine) who tells her about the massive conflict that is raging in the outside world. Convinced that she can stop the threat, Diana leaves her home for the first time. Fighting alongside men in a war to end all wars, she finally discovers her full powers and true destiny",<br>
+            "directors": "ObjectID('614d090710ad3cd4e5b32f4c')",<br>
+            "release_date": "2017-06-02T00:00:00.000Z",<br>
+            "featured": false<br>
+            <br>
+          }<br>
+        </td>
       </tr>
 
       <tr>
         <td>Get data about a single movie by movie name</td>
         <td>/movies/title</td>
         <td>GET</td>
+        <td>Movies</td>
         <td>None</td>
         <td>A JSON object holding data about a single movie, containing an title, and description. Example:<br><br>
-          {<br><br>
-          "year": 2020,<br>
-          "title": "Wonder Woman 1984",<br>
-          "description": "Diana Prince lives quietly among mortals in the vibrant, sleek 1980s -- an era of excess<br>
-          driven by the pursuit of having it all. Though she's come into her full powers, she maintains a low profile by<br>
-          curating ancient artifacts, and only performing heroic acts incognito. But soon, Diana will have to muster all<br>
-          of her strength, wisdom and courage as she finds herself squaring off against Maxwell Lord and the Cheetah, a<br>
-          villainess who possesses superhuman strength and agility.",<br>
-          "info": {<br>
-          "directors": "Patty Jenkins",<br>
-          "release_date": "December 25, 2020 (USA)"<br><br>
-          }
+          {<br>
+            "genre": [<br>
+                "ObjectID('614cfa9010379cf7cbaf21b8')",<br>
+                "ObjectID('614cfafa10379cf7cbaf21b9')"<br>
+            ],<br>
+            "directors": "ObjectID('614d0a8810ad3cd4e5b32f54')",<br>
+            "actors": [],<br>
+            "_id": "614d401f10ad3cd4e5b32f64",<br>
+            "year": "1970-01-01T00:00:02.018Z",<br>
+            "title": "Ant-Man and the Wasp",<br>
+            "ImagePath": "https://m.media-amazon.com/images/M/MV5BYjcyYTk0N2YtMzc4ZC00Y2E0LWFkNDgtNjE1MzZmMGE1YjY1XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg",<br>
+            "description": "Scott Lang is grappling with the consequences of his choices as both a superhero and a father. Approached by Hope van Dyne and Dr. Hank Pym, Lang must once again don the Ant-Man suit and fight alongside the Wasp. The urgent mission soon leads to secret revelations from the past as the dynamic duo finds itself in an epic battle against a powerful new enemy.",<br>
+            "release_date": "2018-07-04T00:00:00.000Z",<br>
+            "featured": false<br>
+        }<br>
         </td>
       </tr>
 
@@ -105,30 +134,33 @@
         <td>Add a new movie to the list</td>
         <td>/movies</td>
         <td>POST</td>
-        <td> A JSON object holding data about the student to add, structured like: <br><br>
+        <td>Movie</td>
+        <td> 
           {<br>
-            "year": 2021,<br>
-            "title": "Free Guy",<br>
-            "description": "When a bank teller discovers he's actually a background player in an open-world video game, he decides to become the hero of his own story -- one that he can rewrite himself. In a world where there's no limits, he's determined to save the day his way before it's too late, and maybe find a little romance with the coder who conceived him.",<br>
-            "info": {<br>
-            "directors": "Shawn Levy",<br>
-            "release_date": "August 13, 2021"<br>
-            }
-          }
+            <br>
+            "year": "2019",<br>
+              "title": "Joker-TestPostMethod22",<br>
+              "ImagePath": "https://cdn11.bigcommerce.com/s-ydriczk/images/stencil/1280x1280/products/89058/93685/Joker-2019-Final-Style-steps-Poster-buy-original-movie-posters-at-starstills__62518.1572351179.jpg?c=2?imbypass=on",<br>
+              "genre": "ObjectID('614cfb1310379cf7cbaf21ba')",<br>
+              "description": "Forever alone in a crowd, failed comedian Arthur Fleck seeks connection as he walks the streets of Gotham City. Arthur wears two masks -- the one he paints for his day job as a clown, and the guise he projects in a futile attempt to feel like he part of the world around him. Isolated, bullied and disregarded by society, Fleck begins a slow descent into madness as he transforms into the criminal mastermind known as the Joker.",<br>
+              "directors": "ObjectID('614d096e10ad3cd4e5b32f4e')",<br>
+              "release_date": "2019-10-04",<br>
+              "featured": false<br>
+        }<br>
         </td>
 
         <td>A JSON object holding data about the movie that was added, including an ID:<br><br>
-
           {<br>
-            "year": 2021,<br>
-            "title": "Free Guy",<br>
-            "description": "When a bank teller discovers he's actually a background player in an open-world video game, he decides to become the hero of his own story -- one that he can rewrite himself. In a world where there's no limits, he's determined to save the day his way before it's too late, and maybe find a little romance with the coder who conceived him.",<br>
-            "info": {<br>
-                "directors": "Shawn Levy",<br>
-                "release_date": "August 13, 2021"<br>
-            },<br>
-            "id": "639b8bfc-23dd-4c84-99fa-5a831a37abc1"<br>
-        }
+            "year": "2019-01-01T00:00:00.000Z",<br>
+            "title": "Joker-TestPostMethod22",<br>
+            "ImagePath": "https://cdn11.bigcommerce.com/s-ydriczk/images/stencil/1280x1280/products/89058/93685/Joker-2019-Final-Style-steps-Poster-buy-original-movie-posters-at-starstills__62518.1572351179.jpg?c=2?imbypass=on",<br>
+            "description": "Forever alone in a crowd, failed comedian Arthur Fleck seeks connection as he walks the streets of Gotham City. Arthur wears two masks -- the one he paints for his day job as a clown, and the guise he projects in a futile attempt to feel like he part of the world around him. Isolated, bullied and disregarded by society, Fleck begins a slow descent into madness as he transforms into the criminal mastermind known as the Joker.",<br>
+            "actors": [],<br>
+            "release_date": "2019-10-04T00:00:00.000Z",<br>
+            "featured": false,<br>
+            "_id": "614d52401533053a96440009",<br>
+            "__v": 0<br>
+        }<br>
         </td>
       </tr>
 
@@ -136,41 +168,95 @@
         <td>Update the information in movie by title</td>
         <td>/movies/:title</td>
         <td>/PUT</td>
-        <td>{<br>
-          "title": "Ant-Man and the Wasp-Update"<br>
-          } <br>
+        <td>Movies</td>
+        <td><br>
+          {<br>
+            <br>
+            "year": 2018,<br>
+            "title": "Updated!!!- Ant-Man and the Wasp",<br>
+            "ImagePath": "https://m.media-amazon.com/images/M/MV5BYjcyYTk0N2YtMzc4ZC00Y2E0LWFkNDgtNjE1MzZmMGE1YjY1XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg",<br>
+            "genre": [<br>
+                "ObjectID('614cfa9010379cf7cbaf21b8')",<br>
+                "ObjectID('614cfafa10379cf7cbaf21b9')"<br>
+            ],<br>
+            "description": "Updated!!!-Scott Lang is grappling with the consequences of his choices as both a superhero and a father. Approached by Hope van Dyne and Dr. Hank Pym, Lang must once again don the Ant-Man suit and fight alongside the Wasp. The urgent mission soon leads to secret revelations from the past as the dynamic duo finds itself in an epic battle against a powerful new enemy.",<br>
+            "directors": "ObjectID('614d0a8810ad3cd4e5b32f54')",<br>
+            "release_date": "2018-07-04",<br>
+            "featured": false<br>
+        }<br>
         </td>
-        <td>A text message indicating whether the movie was successfully updated</td>
+        <td>
+          {<br>
+            "genre": [<br>
+                "ObjectID('614cfa9010379cf7cbaf21b8')",<br>
+                "ObjectID('614cfafa10379cf7cbaf21b9')"<br>
+            ],<br>
+            "directors": "ObjectID('614d0a8810ad3cd4e5b32f54')",<br>
+            "actors": [],<br>
+            "_id": "614d401f10ad3cd4e5b32f64",<br>
+            "year": "1970-01-01T00:00:02.018Z",<br>
+            "title": "Updated!!!- Ant-Man and the Wasp",<br>
+            "ImagePath": "https://m.media-amazon.com/images/M/MV5BYjcyYTk0N2YtMzc4ZC00Y2E0LWFkNDgtNjE1MzZmMGE1YjY1XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg",<br>
+            "description": "Updated!!!-Scott Lang is grappling with the consequences of his choices as both a superhero and a father. Approached by Hope van Dyne and Dr. Hank Pym, Lang must once again don the Ant-Man suit and fight alongside the Wasp. The urgent mission soon leads to secret revelations from the past as the dynamic duo finds itself in an epic battle against a powerful new enemy.",<br>
+            "release_date": "2018-07-04T00:00:00.000Z",<br>
+            "featured": false<br>
+        }<br>
+        </td>
       </tr>
 
       <tr>
         <td>Delete the movie from the list</td>
         <td>/movies/:title</td>
         <td>/DELETE</td>
+        <td>Movies</td>
         <td>None</td>
         <td>A text message indicating whether the movie was successfully removed</td>
+      </tr>
+
+      <tr>
+        <td>Return data about a all genre to for user</td>
+        <td>/movies/genre</td>
+        <td>/GET</td>
+        <td>Genres</td>
+        <td>None</td>
+        <td>returns a list of genre for a movie</td>
       </tr>
 
       <tr>
         <td>Return data about a genre (description) by name/title (e.g., "Thriller")</td>
         <td>/movies/genre/:genres</td>
         <td>/GET</td>
+        <td>Genres</td>
         <td>None</td>
-        <td>returns a list of movies for a specific genre</td>
+        <td>
+          {<br>
+            "_id": "614cfa9010379cf7cbaf21b8",<br>
+            "name": "Action",<br>
+            "description": "Action film is a film genre in which the protagonist or protagonists are thrust into a series of events that typically include violence, extended fighting, physical feats, rescues and frantic chases. Common tropes of the genre include explosions, car chases, fistfights and shootouts"
+          }<br>
+        </td>
       </tr>
 
       <tr>
         <td>Return data about a director (bio, birth year, death year) by name</td>
         <td>/movies/directors/:name</td>
         <td>/GET</td>
+        <td>Directors</td>
         <td>None</td>
-        <td>returns data concerning a specific director by name</td>
+        <td>{<br>
+          "_id": "614d0a8810ad3cd4e5b32f53",<br>
+          "name": "Ryan Coogler",<br>
+          "bio": "Ryan Kyle Coogler is an American film director producer and screenwriter. His first feature film Fruitvale Station won the top audience and grand jury awards in the U.S. dramatic competition at the 2013 Sundance Film Festival",<br>
+          "birth": "1986/05/23",<br>
+          "death": null<br>
+      }</td>
       </tr>
 
       <tr>
         <td>Register New user</td>
         <td>/users</td>
         <td>/POST</td>
+        <td>Users</td>
         <td>
           A JSON object holding data about the movie that was added, including an ID:<br><br>
           {<br>
@@ -195,6 +281,7 @@
         <td>Return all users list</td>
         <td>/users</td>
         <td>/GET</td>
+        <td>Users</td>
         <td>None</td>
         <td>returns all user list</td>
       </tr>
@@ -203,53 +290,90 @@
         <td>Return user info by username</td>
         <td>/users/:username</td>
         <td>/GET</td>
+        <td>Users</td>
         <td>None</td>
-        <td>returns user info</td>
+        <td>
+          {<br>
+          "_id": "614c0ed0d0e270015a07966a",<br>
+          "username": "cat-TEST",<br>
+          "password": "jW0jmvL",<br>
+          "email": "ibeswetherick1@aol.com",<br>
+          "birth_date": "1970-01-01T00:00:01.967Z",<br>
+          "FavoriteMovies": [],<br>
+          "__v": 0<br>
+          }<br>
+      </td>
       </tr>
 
       <tr>
         <td>Allow users to update their user info username</td>
         <td>/users/:username</td>
         <td>/PUT</td>
+        <td>Users</td>
         <td><br>
           {<br>
-            "name": "Nannaphat",<br>
-            "username": "changeOf-field",<br>
-            "email": "field@gmail.com",<br>
-            "password": "Password"<br>
-            }<br>
+            "_id": "614a81ceff54a360c70a475b",<br>
+            "username": "Update!!-wortas1",<br>
+            "password": "Update!!-jW0jmvL",<br>
+            "email": "Update!!-ibeswetherick1@aol.com",<br>
+            "birth_date": "1970-01-01T00:00:01.967Z",<br>
+            "FavoriteMovies": [<br>
+                "614a9b15ceff12387abe4bc6",<br>
+                "614d401f10ad3cd4e5b32f63"<br>
+            ]<br>
+          }<br>
         </td>
-        <td>A text message indicating whether the username was successfully updated</td>
+        <td>
+          {<br>
+            "_id": "614a81ceff54a360c70a475b",<br>
+            "username": "Update!!-wortas1",<br>
+            "password": "Update!!-jW0jmvL",<br>
+            "email": "Update!!-ibeswetherick1@aol.com",<br>
+            "birth_date": "1970-01-01T00:00:01.967Z",<br>
+            "FavoriteMovies": [<br>
+                "614a9b15ceff12387abe4bc6",<br>
+                "614d401f10ad3cd4e5b32f63"<br>
+            ]<br>
+          }<br>
+        </td>
       </tr>
 
       <tr>
         <td>Allow existing users to deregister by username</td>
         <td>/users/:username</td>
         <td>/DELETE</td>
+        <td>Users</td>
         <td>None</td>
         <td>A text message indicating whether the username was successfully deregister</td>
-      </tr>
-
-      <tr>
-        <td>Allow existing users to deregister by ID</td>
-        <td>/account/:user/:id</td>
-        <td>/DELETE</td>
-        <td>None</td>
-        <td>A text message indicating Successful add new movie to your list</td>
       </tr>
 
       <tr>
         <td>Add a movie to a user's list of favorites</td>
-        <td>/users/:username/favorites</td>
+        <td>/users/:username/:ObjectId</td>
         <td>/POST</td>
+        <td>Users</td>
         <td>None</td>
-        <td>A text message indicating whether the username was successfully deregister</td>
+        <td>
+          {<br>
+            "_id": "614a81ceff54a360c70a475b",<br>
+            "username": "Update!!-wortas1",<br>
+            "password": "Update!!-jW0jmvL",<br>
+            "email": "Update!!-ibeswetherick1@aol.com",<br>
+            "birth_date": "1970-01-01T00:00:01.967Z",<br>
+            "FavoriteMovies": [<br>
+                "614a9b15ceff12387abe4bc6",<br>
+                "614d401f10ad3cd4e5b32f63",<br>
+                "614d3ffb10ad3cd4e5b32f5d"<br>
+            ]<br>
+        }<br>
+        </td>
       </tr>
 
       <tr>
         <td> Delete a movie to a user's list of favorites</td>
-        <td>/users/:username/favorites/:movieId</td>
+        <td>/users/:username/:ObjectId</td>
         <td>/DELETE</td>
+        <td>Users</td>
         <td>None</td>
         <td>A text message indicating Successful DELETE movie from your favorites list</td>
       </tr>
