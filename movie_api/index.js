@@ -8,6 +8,9 @@ const express = require('express'),
   ServerPort = 8010;
 
 
+const passport = require('passport');
+require('./authentication/passport.js');
+
 const app = express();
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -31,19 +34,16 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-//Authentication & Authorization
-let auth = require('./authentication/auth')(app);
-const passport = require('passport');
-require('./authentication/passport');
+
 
 app.use(methodOverride());
 // Use express.static to serve your “documentation.html”
 app.use(express.static('public'));
 app.use(express.static('__dirname'));
 app.use(myLogger);
-app.use(passport.initialize());
-app.use(passport.session());
 
+//Authentication & Authorization
+let auth = require('./authentication/auth.js')(app);
 
 //Reture a Movie list to home page
 
@@ -250,7 +250,7 @@ app.delete('/movies/:title', passport.authenticate('jwt', {
 
 // Register New user
 app.post('/users', function (req, res) {
-
+  console.log(req.body)
   Users.findOne({
       username: req.body.username
     })
