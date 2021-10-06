@@ -54,20 +54,6 @@ app.get('/', (req, res) => {
 });
 
 
-//Return a list of ALL movies to the user
-// app.get('/movies', passport.authenticate('jwt', {session: false} ), (req, res) => {
-//   Movies.find()
-//     .then((movie) => {
-//       res.status(201).json(movie);
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.status(500).send('Error: ' + err);
-//     });
-
-// });
-
-
 app.get('/movies', passport.authenticate('jwt', {
   session: false
 }), (req, res) => {
@@ -192,7 +178,9 @@ app.post('/movies', passport.authenticate('jwt', {
 
 
 // Update the information in movie by title
-app.put('/movies/:title', function (req, res) {
+app.put('/movies/:title', passport.authenticate('jwt', {
+  session: false
+}), (req, res) => {
 
   Movies.findOneAndUpdate({
       title: req.params.title
@@ -231,8 +219,8 @@ app.delete('/movies/:title', passport.authenticate('jwt', {
   Movies.findOneAndRemove({
       title: req.params.title
     })
-    .then((user) => {
-      if (!user) {
+    .then((movie) => {
+      if (!movie) {
         res.status(400).send(req.params.title + ' was not found');
       } else {
         res.status(200).send(req.params.title + ' was deleted.');
@@ -250,7 +238,7 @@ app.delete('/movies/:title', passport.authenticate('jwt', {
 
 // Register New user
 app.post('/users', function (req, res) {
-  console.log(req.body)
+  console.log(req.body);
   Users.findOne({
       username: req.body.username
     })
@@ -296,7 +284,9 @@ app.get('/users', passport.authenticate('jwt', {
 });
 
 // Get a user by username
-app.get('/users/:username', (req, res) => {
+app.get('/users/:username', passport.authenticate('jwt', {
+  session: false
+}), (req, res) => {
   Users.findOne({
       username: req.params.username
     })
@@ -362,7 +352,7 @@ app.delete('/users/:username', passport.authenticate('jwt', {
 });
 
 
-// Add a movie to a user's list of favorites
+// Add a favorites movie to a user's list 
 app.post('/users/:username/:ObjectId', passport.authenticate('jwt', {
   session: false
 }), (req, res) => {
@@ -385,7 +375,7 @@ app.post('/users/:username/:ObjectId', passport.authenticate('jwt', {
     });
 });
 
-// Delete a movie to a user's list of favorites
+// Delete a favorites movie from a user's list 
 app.delete('/users/:username/:ObjectId', passport.authenticate('jwt', {
   session: false
 }), (req, res) => {
