@@ -5,13 +5,20 @@ const express = require('express'),
   methodOverride = require('method-override'),
   mongoose = require('mongoose'),
   Models = require('./models.js'),
-  ServerPort = 8010;
+  cors = require('cors'),
+  bcrypt = require('bcrypt'),
+  { check, validationResult } = require('express-validator'),
+  ServerPort = 8080;
 
 
 const passport = require('passport');
 require('./authentication/passport.js');
 
+
+
 const app = express();
+app.use(cors());
+
 const Movies = Models.Movie;
 const Users = Models.User;
 const Genres = Models.Genre;
@@ -33,6 +40,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
 
 
 
@@ -237,8 +245,35 @@ app.delete('/movies/:title', passport.authenticate('jwt', {
 
 
 // Register New user
-app.post('/users', function (req, res) {
+app.post('/users', 
+ // Validation logic here for request
+  //you can either use a chain of methods like .not().isEmpty()
+  //which means "opposite of isEmpty" in plain english "is not empty"
+  //or use .isLength({min: 5}) which means
+  //minimum value of 5 characters are only allowed
+  [
+    check('username', 'Username is required').isLength({
+      min: 5
+    }),
+    check('username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('password', 'Password is required').not().isEmpty(),
+    check('email', 'Email does not appear to be valid').isEmail()
+  ], (req, res) => {
+
+    // check the validation object for errors
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({
+        errors: errors.array()
+      });
+    }
+
+    let hashedPassword = Users.hashPassword(req.body.password);
+
   console.log(req.body);
+
+
   Users.findOne({
       username: req.body.username
     })
@@ -249,7 +284,7 @@ app.post('/users', function (req, res) {
         Users
           .create({
             username: req.body.username,
-            password: req.body.password,
+            password: hashedPassword,
             email: req.body.email,
             birth_date: req.body.birth_date
           })
@@ -409,6 +444,6 @@ app.use((err, req, res, next) => {
 });
 
 // listen for requests
-app.listen(ServerPort, () => {
-  console.log(`Your app is listening on port ${ServerPort}`);
+app.listen(ServerPort, '0.0.0.0',() => {
+  console.log(`Listening on Port ${ServerPort}`);
 });
