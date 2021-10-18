@@ -7,8 +7,10 @@ const express = require('express'),
   Models = require('./models.js'),
   cors = require('cors'),
   bcrypt = require('bcrypt'),
-  { check, validationResult } = require('express-validator'),
-  ServerPort = 8080;
+  { check, validationResult } = require('express-validator');
+  // ServerPort = 8080;
+
+const ServerPort = process.env.PORT || 8080;
 
 
 const passport = require('passport');
@@ -444,6 +446,10 @@ app.use((err, req, res, next) => {
 });
 
 // listen for requests
-app.listen(ServerPort, '0.0.0.0',() => {
-  console.log(`Listening on Port ${ServerPort}`);
+// app.listen(ServerPort, '0.0.0.0',() => {
+//   console.log(`Listening on Port ${ServerPort}`);
+// });
+
+app.listen(ServerPort,function() {
+console.log(`Listening on Port ${ServerPort}`); 
 });
