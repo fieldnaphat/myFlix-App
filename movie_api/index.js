@@ -1,4 +1,5 @@
-const express = require('express'),
+const 
+  express = require('express'),
   morgan = require('morgan'),
   bodyParser = require('body-parser'),
   uuid = require('uuid'),
@@ -7,16 +8,16 @@ const express = require('express'),
   Models = require('./models.js'),
   cors = require('cors'),
   bcrypt = require('bcrypt'),
+  path = require('path'),
   { check, validationResult } = require('express-validator');
-  // ServerPort = 8080;
 
-const ServerPort = process.env.PORT || 8080;
+const dotenv = require('dotenv'); 
+dotenv.config()
 
-
+const port = process.env.PORT || 8080;
+// const uri = process.env.MONGODB_URI;
 const passport = require('passport');
 require('./authentication/passport.js');
-
-
 
 const app = express();
 app.use(cors());
@@ -26,10 +27,7 @@ const Users = Models.User;
 const Genres = Models.Genre;
 const Directors = Models.Director;
 
-mongoose.connect(process.env.CONNECTION_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+
 
 //Middleware functions
 let myLogger = (req, res, next) => {
@@ -43,6 +41,21 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+// mongoose.connect(uri, {   
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   useCreateIndex: true
+// });
+mongoose.connect(process.env.CONNECTION_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => { 
+  console.log('Connected to Mongo!'); 
+}) 
+.catch((err) => { 
+  console.error('Error Can not connecting to Mongo', err); 
+});
 
 
 
@@ -62,6 +75,11 @@ let auth = require('./authentication/auth.js')(app);
 app.get('/', (req, res) => {
   res.send('Welcome to my movie database!');
 });
+
+// // sendFile will go here
+// app.get('/', function(req, res) {
+//   res.sendFile(path.join(__dirname, './index.html'));
+// });
 
 
 app.get('/movies', passport.authenticate('jwt', {
@@ -445,11 +463,7 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something Error!!!');
 });
 
-// listen for requests
-// app.listen(ServerPort, '0.0.0.0',() => {
-//   console.log(`Listening on Port ${ServerPort}`);
-// });
 
-app.listen(ServerPort,function() {
-console.log(`Listening on Port ${ServerPort}`); 
-});
+app.listen(port, '0.0.0.0',() => {
+  console.log('Listening on Port ' + port);
+ });
